@@ -1,0 +1,5 @@
+ui.spec
+venv
+build
+.idea
+__pycache__
