@@ -410,7 +410,7 @@ class Window(QMainWindow):  # создание класса для прилож�
 
                 if (oper.find('увеличить') >= 0) or (oper.find('увеличь') >= 0):
                     def volume_control_plus(n):
-                        global vol
+                        global vol, cur_vol
                         if volume.GetMasterVolumeLevel() == d[100]:
                             vol = d[100]
                         elif volume.GetMasterVolumeLevel() == d[99]:
@@ -1441,6 +1441,316 @@ class Window(QMainWindow):  # создание класса для прилож�
                     tts.runAndWait()
                     self.main_text.setText("Громкость уменьшена на" + ' ' + str(num))
                     self.main_text.adjustSize()
+
+            elif oper.find("текущая громкость") >= 0:
+                d = {a: 0 for a in range(101)}
+                d[0] = -65.25
+                d[1] = -56.992191314697266
+                d[2] = -51.671180725097656
+                d[3] = -47.73759078979492
+                d[4] = -44.61552047729492
+                d[5] = -42.026729583740234
+                d[6] = -39.81534194946289
+                d[7] = -37.88519287109375
+                d[8] = -36.17274856567383
+                d[9] = -34.63383865356445
+                d[10] = -33.23651123046875
+                d[11] = -31.956890106201172
+                d[12] = -30.77667808532715
+                d[13] = -29.681535720825195
+                d[14] = -28.66002082824707
+                d[15] = -27.70285415649414
+                d[16] = -26.80240821838379
+                d[17] = -25.95233154296875
+                d[18] = -25.147287368774414
+                d[19] = -24.38274574279785
+                d[20] = -23.654823303222656
+                d[21] = -22.960174560546875
+                d[22] = -22.295886993408203
+                d[23] = -21.6594181060791
+                d[24] = -21.048532485961914
+                d[25] = -20.461252212524414
+                d[26] = -19.895822525024414
+                d[27] = -19.350669860839844
+                d[28] = -18.824398040771484
+                d[29] = -18.315736770629883
+                d[30] = -17.82354736328125
+                d[31] = -17.3467960357666
+                d[32] = -16.884546279907227
+                d[33] = -16.435937881469727
+                d[34] = -16.000192642211914
+                d[35] = -15.576590538024902
+                d[36] = -15.164472579956055
+                d[37] = -14.763236045837402
+                d[38] = -14.372318267822266
+                d[39] = -13.991202354431152
+                d[40] = -13.61940860748291
+                d[41] = -13.256492614746094
+                d[42] = -12.902039527893066
+                d[43] = -12.555663108825684
+                d[44] = -12.217005729675293
+                d[45] = -11.88572883605957
+                d[46] = -11.561516761779785
+                d[47] = -11.2440767288208
+                d[48] = -10.933131217956543
+                d[49] = -10.62841796875
+                d[50] = -10.329694747924805
+                d[51] = -10.036728858947754
+                d[52] = -9.749302864074707
+                d[53] = -9.46721076965332
+                d[54] = -9.190258026123047
+                d[55] = -8.918261528015137
+                d[56] = -8.651047706604004
+                d[57] = -8.388449668884277
+                d[58] = -8.130311965942383
+                d[59] = -7.876484394073486
+                d[60] = -7.626824855804443
+                d[61] = -7.381200790405273
+                d[62] = -7.1394829750061035
+                d[63] = -6.901548862457275
+                d[64] = -6.6672821044921875
+                d[65] = -6.436570644378662
+                d[66] = -6.209307670593262
+                d[67] = -5.98539400100708
+                d[68] = -5.764730453491211
+                d[69] = -5.547224998474121
+                d[70] = -5.33278751373291
+                d[71] = -5.121333599090576
+                d[72] = -4.912779808044434
+                d[73] = -4.707049369812012
+                d[74] = -4.5040669441223145
+                d[75] = -4.3037590980529785
+                d[76] = -4.1060566902160645
+                d[77] = -3.9108924865722656
+                d[78] = -3.718202590942383
+                d[79] = -3.527923583984375
+                d[80] = -3.339998245239258
+                d[81] = -3.1543679237365723
+                d[82] = -2.970977306365967
+                d[83] = -2.7897727489471436
+                d[84] = -2.610703229904175
+                d[85] = -2.4337174892425537
+                d[86] = -2.2587697505950928
+                d[87] = -2.08581280708313
+                d[88] = -1.9148017168045044
+                d[89] = -1.7456932067871094
+                d[90] = -1.5784454345703125
+                d[91] = -1.4130167961120605
+                d[92] = -1.2493702173233032
+                d[93] = -1.0874667167663574
+                d[94] = -0.9272695183753967
+                d[95] = -0.768743097782135
+                d[96] = -0.6118528842926025
+                d[97] = -0.4565645754337311
+                d[98] = -0.30284759402275085
+                d[99] = -0.15066957473754883
+                d[100] = 0.0
+
+                if volume.GetMasterVolumeLevel() == d[100]:
+                    cur_vol = 100
+                elif volume.GetMasterVolumeLevel() == d[99]:
+                    cur_vol = 99
+                elif volume.GetMasterVolumeLevel() == d[98]:
+                    cur_vol = 98
+                elif volume.GetMasterVolumeLevel() == d[97]:
+                    cur_vol = 97
+                elif volume.GetMasterVolumeLevel() == d[95]:
+                    cur_vol = 95
+                elif volume.GetMasterVolumeLevel() == d[94]:
+                    cur_vol = 94
+                elif volume.GetMasterVolumeLevel() == d[93]:
+                    cur_vol = 93
+                elif volume.GetMasterVolumeLevel() == d[92]:
+                    cur_vol = 92
+                elif volume.GetMasterVolumeLevel() == d[91]:
+                    cur_vol = 91
+                elif volume.GetMasterVolumeLevel() == d[90]:
+                    cur_vol = 90
+                elif volume.GetMasterVolumeLevel() == d[89]:
+                    cur_vol = 89
+                elif volume.GetMasterVolumeLevel() == d[88]:
+                    cur_vol = 88
+                elif volume.GetMasterVolumeLevel() == d[87]:
+                    cur_vol = 87
+                elif volume.GetMasterVolumeLevel() == d[86]:
+                    cur_vol = 86
+                elif volume.GetMasterVolumeLevel() == d[85]:
+                    cur_vol = 85
+                elif volume.GetMasterVolumeLevel() == d[84]:
+                    cur_vol = 84
+                elif volume.GetMasterVolumeLevel() == d[83]:
+                    cur_vol = 83
+                elif volume.GetMasterVolumeLevel() == d[82]:
+                    cur_vol = 82
+                elif volume.GetMasterVolumeLevel() == d[81]:
+                    cur_vol = 81
+                elif volume.GetMasterVolumeLevel() == d[80]:
+                    cur_vol = 80
+                elif volume.GetMasterVolumeLevel() == d[79]:
+                    cur_vol = 79
+                elif volume.GetMasterVolumeLevel() == d[78]:
+                    cur_vol = 78
+                elif volume.GetMasterVolumeLevel() == d[77]:
+                    cur_vol = 77
+                elif volume.GetMasterVolumeLevel() == d[76]:
+                    cur_vol = 76
+                elif volume.GetMasterVolumeLevel() == d[75]:
+                    cur_vol = 75
+                elif volume.GetMasterVolumeLevel() == d[74]:
+                    cur_vol = 74
+                elif volume.GetMasterVolumeLevel() == d[73]:
+                    cur_vol = 73
+                elif volume.GetMasterVolumeLevel() == d[72]:
+                    cur_vol = 72
+                elif volume.GetMasterVolumeLevel() == d[71]:
+                    cur_vol = 71
+                elif volume.GetMasterVolumeLevel() == d[70]:
+                    cur_vol = 70
+                elif volume.GetMasterVolumeLevel() == d[69]:
+                    cur_vol = 69
+                elif volume.GetMasterVolumeLevel() == d[68]:
+                    cur_vol = 68
+                elif volume.GetMasterVolumeLevel() == d[67]:
+                    cur_vol = 67
+                elif volume.GetMasterVolumeLevel() == d[66]:
+                    cur_vol = 66
+                elif volume.GetMasterVolumeLevel() == d[65]:
+                    cur_vol = 65
+                elif volume.GetMasterVolumeLevel() == d[64]:
+                    cur_vol = 64
+                elif volume.GetMasterVolumeLevel() == d[63]:
+                    cur_vol = 63
+                elif volume.GetMasterVolumeLevel() == d[62]:
+                    cur_vol = 62
+                elif volume.GetMasterVolumeLevel() == d[61]:
+                    cur_vol = 61
+                elif volume.GetMasterVolumeLevel() == d[60]:
+                    cur_vol = 60
+                elif volume.GetMasterVolumeLevel() == d[59]:
+                    cur_vol = 59
+                elif volume.GetMasterVolumeLevel() == d[58]:
+                    cur_vol = 58
+                elif volume.GetMasterVolumeLevel() == d[57]:
+                    cur_vol = 57
+                elif volume.GetMasterVolumeLevel() == d[56]:
+                    cur_vol = 56
+                elif volume.GetMasterVolumeLevel() == d[55]:
+                    cur_vol = 55
+                elif volume.GetMasterVolumeLevel() == d[54]:
+                    cur_vol = 54
+                elif volume.GetMasterVolumeLevel() == d[53]:
+                    cur_vol = 53
+                elif volume.GetMasterVolumeLevel() == d[52]:
+                    cur_vol = 52
+                elif volume.GetMasterVolumeLevel() == d[51]:
+                    cur_vol = 51
+                elif volume.GetMasterVolumeLevel() == d[50]:
+                    cur_vol = 50
+                elif volume.GetMasterVolumeLevel() == d[49]:
+                    cur_vol = 49
+                elif volume.GetMasterVolumeLevel() == d[48]:
+                    cur_vol = 48
+                elif volume.GetMasterVolumeLevel() == d[47]:
+                    cur_vol = 47
+                elif volume.GetMasterVolumeLevel() == d[46]:
+                    cur_vol = 46
+                elif volume.GetMasterVolumeLevel() == d[45]:
+                    cur_vol = 45
+                elif volume.GetMasterVolumeLevel() == d[44]:
+                    cur_vol = 44
+                elif volume.GetMasterVolumeLevel() == d[43]:
+                    cur_vol = 43
+                elif volume.GetMasterVolumeLevel() == d[42]:
+                    cur_vol = 42
+                elif volume.GetMasterVolumeLevel() == d[41]:
+                    cur_vol = 41
+                elif volume.GetMasterVolumeLevel() == d[40]:
+                    cur_vol = 40
+                elif volume.GetMasterVolumeLevel() == d[39]:
+                    cur_vol = 39
+                elif volume.GetMasterVolumeLevel() == d[38]:
+                    cur_vol = 38
+                elif volume.GetMasterVolumeLevel() == d[37]:
+                    cur_vol = 37
+                elif volume.GetMasterVolumeLevel() == d[36]:
+                    cur_vol = 36
+                elif volume.GetMasterVolumeLevel() == d[35]:
+                    cur_vol = 35
+                elif volume.GetMasterVolumeLevel() == d[34]:
+                    cur_vol = 34
+                elif volume.GetMasterVolumeLevel() == d[33]:
+                    cur_vol = 33
+                elif volume.GetMasterVolumeLevel() == d[32]:
+                    cur_vol = 32
+                elif volume.GetMasterVolumeLevel() == d[31]:
+                    cur_vol = 31
+                elif volume.GetMasterVolumeLevel() == d[30]:
+                    cur_vol = 30
+                elif volume.GetMasterVolumeLevel() == d[29]:
+                    cur_vol = 29
+                elif volume.GetMasterVolumeLevel() == d[28]:
+                    cur_vol = 28
+                elif volume.GetMasterVolumeLevel() == d[27]:
+                    cur_vol = 27
+                elif volume.GetMasterVolumeLevel() == d[26]:
+                    cur_vol = 26
+                elif volume.GetMasterVolumeLevel() == d[25]:
+                    cur_vol = 25
+                elif volume.GetMasterVolumeLevel() == d[24]:
+                    cur_vol = 24
+                elif volume.GetMasterVolumeLevel() == d[23]:
+                    cur_vol = 23
+                elif volume.GetMasterVolumeLevel() == d[22]:
+                    cur_vol = 22
+                elif volume.GetMasterVolumeLevel() == d[21]:
+                    cur_vol = 21
+                elif volume.GetMasterVolumeLevel() == d[20]:
+                    cur_vol = 20
+                elif volume.GetMasterVolumeLevel() == d[19]:
+                    cur_vol = 19
+                elif volume.GetMasterVolumeLevel() == d[18]:
+                    cur_vol = 18
+                elif volume.GetMasterVolumeLevel() == d[17]:
+                    cur_vol = 17
+                elif volume.GetMasterVolumeLevel() == d[16]:
+                    cur_vol = 16
+                elif volume.GetMasterVolumeLevel() == d[15]:
+                    cur_vol = 15
+                elif volume.GetMasterVolumeLevel() == d[14]:
+                    cur_vol = 14
+                elif volume.GetMasterVolumeLevel() == d[13]:
+                    cur_vol = 13
+                elif volume.GetMasterVolumeLevel() == d[12]:
+                    cur_vol = 12
+                elif volume.GetMasterVolumeLevel() == d[11]:
+                    cur_vol = 11
+                elif volume.GetMasterVolumeLevel() == d[10]:
+                    cur_vol = 10
+                elif volume.GetMasterVolumeLevel() == d[9]:
+                    cur_vol = 9
+                elif volume.GetMasterVolumeLevel() == d[8]:
+                    cur_vol = 8
+                elif volume.GetMasterVolumeLevel() == d[7]:
+                    cur_vol = 7
+                elif volume.GetMasterVolumeLevel() == d[6]:
+                    cur_vol = 6
+                elif volume.GetMasterVolumeLevel() == d[5]:
+                    cur_vol = 5
+                elif volume.GetMasterVolumeLevel() == d[4]:
+                    cur_vol = 4
+                elif volume.GetMasterVolumeLevel() == d[3]:
+                    cur_vol = 3
+                elif volume.GetMasterVolumeLevel() == d[2]:
+                    cur_vol = 2
+                elif volume.GetMasterVolumeLevel() == d[1]:
+                    cur_vol = 1
+                elif volume.GetMasterVolumeLevel() == d[0]:
+                    cur_vol = 0
+
+                tts.say("Текущая громкость:" + ' ' + str(cur_vol))
+                tts.runAndWait()
+                self.main_text.setText("Текущая громкость:" + ' ' + str(cur_vol))
+                self.main_text.adjustSize()
 
             else:
                 tts.say("Я вас не понял")
