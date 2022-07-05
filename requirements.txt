@@ -30,3 +30,4 @@ websockets==10.3
 word2number==1.1
 num2words==0.5.10
 translate==3.6.1
+PyAudio @ file:///C:/Users/ASUS/praktika/PyAudio-0.2.11-cp39-cp39-win_amd64.whl
