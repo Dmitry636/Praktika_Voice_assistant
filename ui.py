@@ -8,6 +8,9 @@ import speech_recognition
 from sound import Sound
 import os
 import pyttsx3
+import datetime
+from translate import Translator
+from num2words import num2words
 
 tts = pyttsx3.init()  # запуск инициализации озвучки
 RU_VOICE_ID = "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Speech\Voices\Tokens\TTS_MS_RU-RU_IRINA_11.0"
@@ -21,7 +24,7 @@ class Window(QMainWindow):  # создание класса для прилож�
 
         self.setWindowTitle('Голосовой асистент Дмитрий')  # создание окна с надписью
         self.setGeometry(800, 200, 400, 100)  # установка размеров окна
-        self.setFixedSize(400, 100)           # фиксированный размер окна
+        self.setFixedSize(400, 100)  # фиксированный размер окна
 
         self.setWindowIcon(QtGui.QIcon('1.png'))  # установка иконки из библиотеки
 
@@ -52,6 +55,7 @@ class Window(QMainWindow):  # создание класса для прилож�
         sr = speech_recognition.Recognizer()  # инициализация текстового преобразователя
         sr.pause_threshold = 0.5  # пауза между словами = 0.5 секунды
         oper = ""  # переменная для поиска слов(словосочетаний)
+        translator = Translator(to_lang="Russian")
 
         with speech_recognition.Microphone() as mic:  # запуск преобразователя(микрофона)
             sr.adjust_for_ambient_noise(source=mic, duration=0.5)  # подавление шумов
@@ -59,6 +63,7 @@ class Window(QMainWindow):  # создание класса для прилож�
             oper = sr.recognize_google(audio_data=audio, language='ru-RU').lower()
             # присваивание значения переменной для поиска слов
             self.new_text.setText(sr.recognize_google(audio_data=audio, language='ru-RU').lower())
+            print(sr.recognize_google(audio_data=audio, language='ru-RU').lower())
             # напечатать то что сказали
             self.new_text.adjustSize()
             self.sub_text.setText(' ')  # отчиска текста для избежания наложения
@@ -74,7 +79,7 @@ class Window(QMainWindow):  # создание класса для прилож�
             tts.runAndWait()
             self.main_text.setText('Пока(')
             self.main_text.adjustSize()
-            self.close()
+            self.close()  # закрытие приложения
 
         elif (oper.find("открой диспетчер задач") >= 0) or \
                 (oper.find("открыть диспетчер задач") >= 0):  # открытие диспетчера задач(если слово найдено)
@@ -90,6 +95,13 @@ class Window(QMainWindow):  # создание класса для прилож�
             self.main_text.setText('Открываются настройки системы')
             self.main_text.adjustSize()
             os.system('Control')  # командная строка = control
+
+        elif (oper.find("Открыть файл hosts в блокноте") >= 0) or (oper.find("Открой файл hosts в блокноте") >= 0):
+            tts.say("Открываю файл hosts в блокноте")
+            tts.runAndWait()
+            self.main_text.setText('Открываю файл hosts в блокноте')
+            self.main_text.adjustSize()
+            os.system('notepad C:\Windows\System32\drivers\etc\hosts')
 
         elif (oper.find("поиск в интернете") >= 0) or (oper.find("найди в интернете") >= 0) or \
                 (oper.find("найти в интернете") >= 0):  # поисковый запрос в гугле
@@ -203,6 +215,83 @@ class Window(QMainWindow):  # создание класса для прилож�
             self.main_text.setText("Громкость уcтановлена на" + str(vol[0]))
             self.main_text.adjustSize()
             Sound.volume_set(vol1)  # регулировка громкости(sound.py, keyboard.py)
+
+        elif (oper.find("выключить звук") >= 0) or (oper.find("выключи звук") >= 0):
+            tts.say("Громкость уcтановлена на:0")
+            tts.runAndWait()
+            self.main_text.setText("Громкость уcтановлена на: 0")
+            self.main_text.adjustSize()
+            Sound.volume_set(0)  # регулировка громкости(sound.py, keyboard.py)
+
+        elif (oper.find("включить звук") >= 0) or (oper.find("включи звук") >= 0):
+            tts.say("Громкость уcтановлена на: 100")
+            tts.runAndWait()
+            self.main_text.setText("Громкость уcтановлена на: 100")
+            self.main_text.adjustSize()
+            Sound.volume_set(100)  # регулировка громкости(sound.py, keyboard.py)
+
+        elif (oper.find("какой сейчас год") >= 0) or (oper.find("какой год сейчас") >= 0):
+            dt = datetime.datetime.now()
+            dt_string = dt.strftime("%Y")
+            year = num2words(dt_string, lang='ru', to='ordinal')
+            tts.say("Сейчас:" + year + "год")
+            tts.runAndWait()
+            self.main_text.setText("Сейчас:" + year + " год")
+            self.main_text.adjustSize()
+
+        elif (oper.find("сколько сейчас время") >= 0) or (oper.find("сколько сейчас времени") >= 0) or \
+                (oper.find("который час") >= 0) or (oper.find("текущее время") >= 0):
+            dt = datetime.datetime.now()
+            dt_string = dt.strftime("%H:%M")
+            tts.say("Сейчас:" + dt_string)
+            tts.runAndWait()
+            self.main_text.setText("Сейчас:" + dt_string)
+            self.main_text.adjustSize()
+
+        elif (oper.find("какой сейчас месяц") >= 0) or (oper.find("какой сегодня месяц") >= 0):
+            dt = datetime.datetime.now()
+            dt_string = dt.strftime("%B")
+            translation = translator.translate(dt_string)
+            tts.say("Сейчас:" + translation)
+            tts.runAndWait()
+            self.main_text.setText("Сейчас:" + translation)
+            self.main_text.adjustSize()
+
+        elif (oper.find("какой сейчас день недели") >= 0) or (oper.find("какой сегодня день недели") >= 0):
+            dt = datetime.datetime.now()
+            dt_string = dt.strftime("%A")
+            translation = translator.translate(dt_string)
+            tts.say("Сейчас:" + translation)
+            tts.runAndWait()
+            self.main_text.setText("Сейчас:" + translation)
+            self.main_text.adjustSize()
+
+        elif (oper.find("какое сегодня число") >= 0) or (oper.find("какая сегодня дата") >= 0):
+
+            def get_date(date):
+                day_list = ['первое', 'второе', 'третье', 'четвёртое',
+                            'пятое', 'шестое', 'седьмое', 'восьмое',
+                            'девятое', 'десятое', 'одиннадцатое', 'двенадцатое',
+                            'тринадцатое', 'четырнадцатое', 'пятнадцатое', 'шестнадцатое',
+                            'семнадцатое', 'восемнадцатое', 'девятнадцатое', 'двадцатое',
+                            'двадцать первое', 'двадцать второе', 'двадцать третье',
+                            'двадацать четвёртое', 'двадцать пятое', 'двадцать шестое',
+                            'двадцать седьмое', 'двадцать восьмое', 'двадцать девятое',
+                            'тридцатое', 'тридцать первое']
+                month_list = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
+                              'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря']
+                date_list = date.split('/')
+                return (day_list[int(date_list[0]) - 1] + ' ' +
+                        month_list[int(date_list[1]) - 1])
+
+            dt = datetime.datetime.now()
+            dt_year = dt.strftime("%Y")
+            year_str = num2words(dt_year, lang='ru', to='ordinal')
+            tts.say("Сегодня:" + get_date(dt.strftime("%d/%m")) + year_str + ' год')
+            tts.runAndWait()
+            self.main_text.setText("Сегодня:" + dt.strftime("%d/%m/%Y") + ' год' + ' ' +
+                                   '(' + get_date(dt.strftime("%d/%m")) + ' ' + year_str + ' год' + ')')
+            self.main_text.adjustSize()
 
         else:
             tts.say("Я вас не понял")
