@@ -106,7 +106,7 @@ class Window(QMainWindow):  # создание класса для прилож�
                 self.main_text.adjustSize()
                 os.system('Control')  # командная строка = control
 
-            elif (oper.find("Открыть файл hosts в блокноте") >= 0) or (oper.find("Открой файл hosts в блокноте") >= 0):
+            elif (oper.find("открыть файл host в блокноте") >= 0) or (oper.find("открой файл host в блокноте") >= 0):
                 tts.say("Открываю файл hosts в блокноте")
                 tts.runAndWait()
                 self.main_text.setText('Открываю файл hosts в блокноте')
@@ -194,6 +194,8 @@ class Window(QMainWindow):  # создание класса для прилож�
                 elif (oper.find("х") >= 0) or (oper.find("*") >= 0) or (oper.find("умножить") >= 0):
                     nums = re.findall('[0-9]+', oper)  # поиск и отлов цифр(regex)
                     rez = int(nums[0]) * int(nums[1])  # умножение цифр(в формате int)
+                    tts.say("Ответ:" + str(rez))
+                    tts.runAndWait()
                     self.main_text.setText('Ответ:')
                     self.main_text.adjustSize()
                     self.sub_text.setText(str(rez))
@@ -227,7 +229,7 @@ class Window(QMainWindow):  # создание класса для прилож�
                 Sound.volume_set(vol1)  # регулировка громкости(sound.py, keyboard.py)
 
             elif (oper.find("выключить звук") >= 0) or (oper.find("выключи звук") >= 0):
-                tts.say("Громкость уcтановлена на:0")
+                tts.say("Громкость уcтановлена на: 0")
                 tts.runAndWait()
                 self.main_text.setText("Громкость уcтановлена на: 0")
                 self.main_text.adjustSize()
@@ -305,7 +307,7 @@ class Window(QMainWindow):  # создание класса для прилож�
 
             elif (oper.find("увеличить громкость на") >= 0) or (oper.find("уменьшить громкость на") >= 0) or \
                     (oper.find("увеличь громкость на") >= 0) or (oper.find("уменьши громкость на") >= 0):
-                d = {a: 0 for a in range(101)}
+                d = {a: 0 for a in range(101)}      # словарь для записи каждого значения громкости(0-100)
                 d[0] = -65.25
                 d[1] = -56.992191314697266
                 d[2] = -51.671180725097656
@@ -409,13 +411,14 @@ class Window(QMainWindow):  # создание класса для прилож�
                 d[100] = 0.0
 
                 if (oper.find('увеличить') >= 0) or (oper.find('увеличь') >= 0):
-                    def volume_control_plus(n):
+                    def volume_control_plus(n):     # функция увеличения громкости на n
                         global vol, cur_vol
                         if volume.GetMasterVolumeLevel() == d[100]:
                             vol = d[100]
-                        elif volume.GetMasterVolumeLevel() == d[99]:
-                            if n <= int(list(d.keys())[list(d.values()).index(d[1])]):
-                                vol = d[99 + n]
+                        elif volume.GetMasterVolumeLevel() == d[99]:        # сравниваем текущее значение громкости
+                            # со словарем
+                            if n <= int(list(d.keys())[list(d.values()).index(d[1])]):  # обработка исключений
+                                vol = d[99 + n]     # присваивание значения vol для установки громкости
                             else:
                                 vol = d[100]
                         elif volume.GetMasterVolumeLevel() == d[98]:
@@ -926,7 +929,7 @@ class Window(QMainWindow):  # создание класса для прилож�
                     self.main_text.adjustSize()
 
                 else:
-                    def volume_control_min(n):
+                    def volume_control_min(n):      # функция уменьшения громкости на n
                         global vol
                         if volume.GetMasterVolumeLevel() == d[100]:
                             if n > int(list(d.keys())[list(d.values()).index(d[100])]):
@@ -1763,7 +1766,6 @@ class Window(QMainWindow):  # создание класса для прилож�
             tts.runAndWait()
             self.main_text.setText('Я вас не понял')  # если не понял написать - (Я вас не понял)
             self.main_text.adjustSize()
-            return 'Я вас не понял'
 
 
 def application():  # создание приложения и получение системных настроек
